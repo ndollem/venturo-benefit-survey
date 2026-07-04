@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { Benefit, RatingOption } from '../types/survey';
 import BenefitSprite from './BenefitSprite';
@@ -13,16 +13,23 @@ interface GameplayProps {
   onRate: (benefitId: string, score: number) => void;
 }
 
-// 8 beautiful soft pastel gradients to dynamically cycle through
+// 15 beautiful soft pastel gradients to dynamically cycle through
 const pastelGradients = [
-  "from-pink-50/70 via-white to-rose-100/30",
-  "from-blue-50/70 via-white to-sky-100/30",
-  "from-emerald-50/70 via-white to-teal-100/30",
-  "from-purple-50/70 via-white to-indigo-100/30",
-  "from-orange-50/70 via-white to-amber-100/30",
-  "from-fuchsia-50/70 via-white to-pink-100/30",
-  "from-violet-50/70 via-white to-purple-100/30",
-  "from-teal-50/70 via-white to-emerald-100/30"
+  "linear-gradient(135deg, #FFF1F2 0%, #FFE4E6 100%)", // Rose
+  "linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%)", // Blue
+  "linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%)", // Emerald
+  "linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 100%)", // Indigo
+  "linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%)", // Orange
+  "linear-gradient(135deg, #FDF2F8 0%, #FCE7F3 100%)", // Fuchsia
+  "linear-gradient(135deg, #F5F3FF 0%, #EDE9FE 100%)", // Violet
+  "linear-gradient(135deg, #F0FDFA 0%, #CCFBF1 100%)", // Teal
+  "linear-gradient(135deg, #FFFDF5 0%, #FEF3C7 100%)", // Amber
+  "linear-gradient(135deg, #ECFEFF 0%, #CFFAFE 100%)", // Cyan
+  "linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%)", // Sky
+  "linear-gradient(135deg, #F7FEE7 0%, #ECFCCB 100%)", // Lime
+  "linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%)", // Slate
+  "linear-gradient(135deg, #FFF5F5 0%, #FED7D7 100%)", // Sakura Pink
+  "linear-gradient(135deg, #FEFCE8 0%, #FEF9C3 100%)"  // Yellow
 ];
 
 const Gameplay: React.FC<GameplayProps> = ({
@@ -33,80 +40,26 @@ const Gameplay: React.FC<GameplayProps> = ({
   ratingOptions,
   onRate,
 }) => {
-  const [isShuffling, setIsShuffling] = useState(false);
-  const [displayBenefit, setDisplayBenefit] = useState<Benefit>(currentBenefit);
-  const [cardKey, setCardKey] = useState(0); // Key for triggering entry/exit animations
-  const hasShuffledRef = useRef<Record<string, boolean>>({});
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
-  // Decide if we should shuffle this card
-  const shouldShuffle = () => {
-    if (config.shuffleAnimation.firstOnly) {
-      // Only shuffle if it's the very first benefit in the entire survey and we haven't shuffled it yet
-      const key = 'first_card';
-      if (!hasShuffledRef.current[key]) {
-        hasShuffledRef.current[key] = true;
-        return true;
-      }
-      return false;
-    }
-    // Shuffle every card if firstOnly is false
-    return true;
-  };
-
+  // Transition lock to prevent double taps/fast clicks while card is animating
   useEffect(() => {
-    let intervalId: any;
-    let timeoutId: any;
+    setIsTransitioning(true);
+    const timer = setTimeout(() => setIsTransitioning(false), 450); // locks inputs for the duration of spring animation
+    return () => clearTimeout(timer);
+  }, [currentBenefit.id]);
 
-    if (shouldShuffle()) {
-      setIsShuffling(true);
-      
-      const duration = config.shuffleAnimation.duration;
-      let delay = 60; // Initial fast cycle speed
-      const startTime = Date.now();
-
-      const runShuffle = () => {
-        // Pick a random benefit that is NOT the current target benefit (to avoid premature reveal)
-        const candidates = allBenefits.filter(b => b.id !== currentBenefit.id);
-        const randomBenefit = candidates[Math.floor(Math.random() * candidates.length)] || currentBenefit;
-        
-        setDisplayBenefit(randomBenefit);
-
-        const elapsed = Date.now() - startTime;
-        if (elapsed < duration) {
-          // Slow down the shuffle animation as time passes
-          const progress = elapsed / duration;
-          delay = 60 + Math.pow(progress, 2) * 240; // 60ms -> 300ms deceleration curve
-          
-          clearInterval(intervalId);
-          intervalId = setInterval(runShuffle, delay);
-        }
-      };
-
-      intervalId = setInterval(runShuffle, delay);
-
-      // Stop shuffling and set the final target benefit
-      timeoutId = setTimeout(() => {
-        clearInterval(intervalId);
-        setIsShuffling(false);
-        setDisplayBenefit(currentBenefit);
-        setCardKey(prev => prev + 1); // Trigger fade-in of final target card
-      }, duration);
-
-    } else {
-      // Skip shuffle, directly display target benefit
-      setIsShuffling(false);
-      setDisplayBenefit(currentBenefit);
-      setCardKey(prev => prev + 1);
+  // Preload the next benefit's image to ensure instantaneous rendering
+  useEffect(() => {
+    if (currentIndex + 1 < allBenefits.length) {
+      const nextBenefit = allBenefits[currentIndex + 1];
+      const img = new Image();
+      img.src = `/images/${nextBenefit.sheet}`;
     }
-
-    return () => {
-      clearInterval(intervalId);
-      clearTimeout(timeoutId);
-    };
-  }, [currentBenefit, allBenefits]);
+  }, [currentIndex, allBenefits]);
 
   const handleRatingClick = (score: number) => {
-    if (isShuffling) return; // Prevent double taps during shuffle
+    if (isTransitioning) return; // Prevent double taps during card transition
     onRate(currentBenefit.id, score);
   };
 
@@ -114,12 +67,27 @@ const Gameplay: React.FC<GameplayProps> = ({
   const progressPercent = (currentIndex / totalCount) * 100;
 
   // Pick background pastel gradient dynamically based on current index
-  const bgClass = pastelGradients[currentIndex % pastelGradients.length];
+  const bgGradient = pastelGradients[currentIndex % pastelGradients.length];
 
   return (
-    <div className={`flex-1 flex flex-col justify-between p-6 select-none bg-gradient-to-br ${bgClass} transition-all duration-700 ease-in-out`}>
+    <div className="flex-1 flex flex-col justify-between p-6 select-none relative overflow-hidden isolate">
+      {/* Dynamic Background Gradient Cross-fade */}
+      <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden">
+        <AnimatePresence mode="popLayout" initial={false}>
+          <motion.div
+            key={bgGradient}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
+            className="absolute inset-0"
+            style={{ background: bgGradient }}
+          />
+        </AnimatePresence>
+      </div>
+
       {/* Progress Section */}
-      <div className="w-full pt-4">
+      <div className="w-full pt-4 relative z-10">
         <div className="flex justify-between items-center text-xs font-black text-slate-400 mb-2">
           <span className="uppercase tracking-wider">Progress</span>
           <span className="font-mono bg-slate-100/80 border border-slate-200/40 px-2 py-0.5 rounded text-slate-600">
@@ -140,14 +108,19 @@ const Gameplay: React.FC<GameplayProps> = ({
       </div>
 
       {/* Benefit Card Container */}
-      <div className="flex-1 flex items-center justify-center py-4">
+      <div className="flex-1 flex items-center justify-center py-4 relative z-10">
         <AnimatePresence mode="wait">
           <motion.div
-            key={`${cardKey}-${displayBenefit.id}`}
-            initial={isShuffling ? { scale: 0.98, opacity: 0.9 } : { scale: 0.96, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.95, opacity: 0 }}
-            transition={{ duration: 0.25, ease: "easeInOut" }}
+            key={currentBenefit.id}
+            initial={{ scale: 0.4, opacity: 0, y: 50, rotate: -3 }}
+            animate={{ scale: 1, opacity: 1, y: 0, rotate: 0 }}
+            exit={{ scale: 0.8, opacity: 0, y: -50, rotate: 3 }}
+            transition={{ 
+              type: "spring",
+              stiffness: 300,
+              damping: 22,
+              mass: 1
+            }}
             className="w-full max-w-[280px] aspect-[4/5] bg-white border border-slate-200/50 rounded-[24px] shadow-xl hover:shadow-2xl transition-shadow flex flex-col overflow-hidden p-4 relative"
             style={{ borderRadius: `${config.cardRadius || 24}px` }}
           >
@@ -157,19 +130,16 @@ const Gameplay: React.FC<GameplayProps> = ({
             {/* Illustration Frame */}
             <div className="flex-1 w-full rounded-[18px] overflow-hidden border border-slate-100 bg-white relative z-10">
               <BenefitSprite
-                sheet={displayBenefit.sheet}
-                index={displayBenefit.index}
-                alt={displayBenefit.title}
-                className={isShuffling ? "blur-[0.5px] scale-[1.01]" : ""}
+                sheet={currentBenefit.sheet}
+                index={currentBenefit.index}
+                alt={currentBenefit.title}
               />
             </div>
 
             {/* Title text */}
             <div className="py-4 text-center z-10 flex-shrink-0">
-              <h3 className={`text-base font-black tracking-tight text-slate-800 leading-tight transition-all duration-200 ${
-                isShuffling ? "opacity-40 scale-[0.98] blur-[0.5px]" : "opacity-100 scale-100"
-              }`}>
-                {displayBenefit.title}
+              <h3 className="text-base font-black tracking-tight text-slate-800 leading-tight">
+                {currentBenefit.title}
               </h3>
             </div>
           </motion.div>
@@ -177,7 +147,7 @@ const Gameplay: React.FC<GameplayProps> = ({
       </div>
 
       {/* Rating Buttons Section (Optimized as a Grid) */}
-      <div className="pb-4">
+      <div className="pb-4 relative z-10">
         <p className="text-center text-[10px] font-black text-slate-400 tracking-widest uppercase mb-3">
           Pilih pendapatmu
         </p>
@@ -191,10 +161,10 @@ const Gameplay: React.FC<GameplayProps> = ({
             return (
               <button
                 key={opt.score}
-                disabled={isShuffling}
+                disabled={isTransitioning}
                 onClick={() => handleRatingClick(opt.score)}
                 className={`rating-btn py-3 px-2 bg-white border border-slate-200/60 rounded-2xl shadow-sm flex flex-col items-center justify-center gap-1.5 text-center border-b-[3px] border-b-slate-300 hover:border-brand hover:border-b-brand-dark focus:outline-none transition-all cursor-pointer ${
-                  isShuffling ? "opacity-50 cursor-not-allowed border-b-slate-200" : ""
+                  isTransitioning ? "opacity-50 cursor-not-allowed border-b-slate-200" : ""
                 } ${
                   isLast && isOddCount ? "col-span-2 py-3.5" : ""
                 }`}
