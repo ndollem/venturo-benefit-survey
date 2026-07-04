@@ -118,3 +118,11 @@ Proyek ini siap dideploy ke **Vercel** dengan integrasi GitHub:
 3. Vercel akan otomatis mendeteksi konfigurasi Vite dan menyetel *build command* `npm run build` serta *output directory* `dist`.
 4. Berkas `vercel.json` akan otomatis mengurus routing halaman agar berjalan mulus sebagai Single Page Application.
 5. Klik **Deploy**.
+
+---
+
+## Laporan Hasil Survey
+
+Seluruh data respon dari peserta survey yang dikirimkan melalui aplikasi ini dicatat secara langsung ke Google Spreadsheet. Anda dapat melihat database hasil survey live pada link berikut:
+
+👉 **[Google Spreadsheet Hasil Survey](https://docs.google.com/spreadsheets/d/1UdqpNzhLoHtq2ZNgcd8SXB3m-TKKCydJVqfX3_2m_ug/edit?usp=sharing)**
