@@ -23,7 +23,7 @@ function App() {
   const currentBenefit = state.shuffledBenefits[state.currentBenefitIndex];
 
   return (
-    <div className="min-h-screen bg-slate-100 flex items-center justify-center p-0 sm:p-4">
+    <div className="min-h-screen min-h-svh bg-slate-100 flex sm:items-center justify-center p-0 sm:p-4">
       {/* Dynamic CSS variable injection for configuration accent color */}
       <style>{`
         :root {
