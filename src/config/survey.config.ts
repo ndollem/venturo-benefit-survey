@@ -11,7 +11,7 @@ const config: SurveyConfig = {
     firstOnly: true,
     duration: 2000
   },
-  submitEndpoint: "https://script.google.com/macros/s/AKfycbxk7sk1P9PHRg1byAKeVh36Rp71WDAXOZFOHM-3SbrapaFiGCIITsdZcTOrMpVyPAwMyQ/exec",
+  submitEndpoint: import.meta.env.VITE_SUBMIT_ENDPOINT || "https://script.google.com/macros/s/AKfycbxk7sk1P9PHRg1byAKeVh36Rp71WDAXOZFOHM-3SbrapaFiGCIITsdZcTOrMpVyPAwMyQ/exec",
   ratingTheme: "casual",
   accent: "#F97316" // Orange accent
 };
