@@ -84,7 +84,15 @@ Survey memiliki state yang dideklarasikan di tipe [SurveyState](file:///Users/kl
 
 Proses pengiriman hasil survey dilakukan menggunakan HTTP POST request ke Google Apps Script Web App.
 
+## 4. Priority Slots Logic
+- **Slot Terbatas**: Terdapat 5 (atau 10) slot prioritas khusus terurut.
+- **Dua Cara Mendapat Rating 5**:
+  1. Melalui tombol rating standar 5 ("Wajib Ada!") di bawah card. Opsi ini memberikan skor 5 pada benefit tersebut tanpa memengaruhi slot prioritas.
+  2. Melalui klik langsung pada slot prioritas (1 s.d. 5) di sidebar kanan. Ini secara otomatis memberikan skor 5 pada benefit bersangkutan dan mencatat posisinya di urutan prioritas.
+- **Sistem Ganti/Replace (Overwrite)**: Klik pada slot prioritas yang sudah terisi akan menggantikan benefit lama dengan benefit yang sedang aktif. Benefit lama tetap mempertahankan nilai rating skor 5, namun dikeluarkan dari list prioritas terurut.
+
 ## Request Payload Format
+Payload JSON yang dikirimkan membundel urutan prioritas di dalam objek `answers` dengan properti khusus `_priorities` bertipe objek dengan kunci berupa string nomor urut prioritas (`"1"`, `"2"`, dst.):
 ```json
 {
   "name": "Budi",
@@ -92,7 +100,11 @@ Proses pengiriman hasil survey dilakukan menggunakan HTTP POST request ke Google
     "financial.project_bonus": 5,
     "office.external_monitor": 4,
     "timeoff.annual_leave": 5,
-    "health.medical": 3
+    "health.medical": 3,
+    "_priorities": {
+      "1": "financial.project_bonus",
+      "2": "timeoff.annual_leave"
+    }
   },
   "stayReason": "Bonus project yang adil...",
   "leaveReason": "Jika tidak ada medical check-up..."

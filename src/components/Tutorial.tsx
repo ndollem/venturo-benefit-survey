@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { CheckCircle2, Star, ShieldCheck, Heart } from 'lucide-react';
+import { CheckCircle2, Star, ShieldCheck, Lock, Sparkles } from 'lucide-react';
 import config from '../config/survey.config';
 
 interface TutorialProps {
@@ -11,17 +11,22 @@ const Tutorial: React.FC<TutorialProps> = ({ onComplete }) => {
   const steps = [
     {
       icon: <Star className="w-6 h-6 text-orange-500" />,
-      text: "Benefit akan muncul satu per satu disertai ilustrasi.",
+      text: "Benefit akan muncul secara acak satu per satu disertai ilustrasi.",
       color: "from-orange-500/10 to-transparent"
     },
     {
-      icon: <Heart className="w-6 h-6 text-rose-500" />,
-      text: "Pilih seberapa menarik benefit tersebut menurutmu.",
+      icon: <Sparkles className="w-6 h-6 text-amber-500" />,
+      text: `Pilih ${config.prioritySlotsCount || 5} benefit paling penting bagi Anda untuk dimasukkan ke slot Prioritas Khusus di kanan.`,
+      color: "from-amber-500/10 to-transparent"
+    },
+    {
+      icon: <Lock className="w-6 h-6 text-rose-500" />,
+      text: "Slot Prioritas Khusus ini terbatas dan TIDAK BISA diganti setelah terisi. Tentukan pilihan Anda secara cermat!",
       color: "from-rose-500/10 to-transparent"
     },
     {
       icon: <ShieldCheck className="w-6 h-6 text-emerald-500" />,
-      text: "Tidak ada jawaban benar/salah. Jawab dengan jujur.",
+      text: "Gunakan tombol rating di bawah (rating 1 s.d. 4) untuk menilai benefit lainnya.",
       color: "from-emerald-500/10 to-transparent"
     }
   ];

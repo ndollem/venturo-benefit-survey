@@ -13,7 +13,8 @@ const config: SurveyConfig = {
   },
   submitEndpoint: import.meta.env.VITE_SUBMIT_ENDPOINT || "https://script.google.com/macros/s/AKfycbxk7sk1P9PHRg1byAKeVh36Rp71WDAXOZFOHM-3SbrapaFiGCIITsdZcTOrMpVyPAwMyQ/exec",
   ratingTheme: "casual",
-  accent: "#F97316" // Orange accent
+  accent: "#F97316", // Orange accent
+  prioritySlotsCount: 5
 };
 
 export default config;

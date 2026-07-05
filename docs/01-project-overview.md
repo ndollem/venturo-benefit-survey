@@ -104,14 +104,16 @@ Yang termasuk dalam project
 
 - Landing page (Splash) dengan cover background `/images/splash.webp`
 - Input nama
-- Tutorial singkat
+- Tutorial singkat (termasuk penjelasan detail aturan prioritas khusus)
 - Mini game survey (Gameplay dengan dynamic pastel backgrounds)
+- Sidebar Prioritas Khusus (PRIORITASMU) di sebelah kanan (kapasitas 5 atau 10 slot)
+- Efek spektakuler confetti berbasis Canvas saat memasukkan prioritas
 - Shuffle animation (Decelerating slot machine)
 - Rating benefit (2-column tile grid layout)
 - Progress indicator
 - Auto submit ke Google Sheet (CORS-friendly dengan `no-cors` mode)
 - Thank you page
-- Penyimpanan ke Google Sheet via Google Apps Script
+- Penyimpanan ke Google Sheet via Google Apps Script (menyimpan urutan prioritas)
 - Vercel configuration (`vercel.json`) untuk hosting SPA
 
 Yang tidak termasuk

@@ -50,7 +50,12 @@ Kolom **Answers** menyimpan objek JSON ter-stringifikasi untuk mengantisipasi pe
   "financial.project_bonus": 5,
   "financial.performance_bonus": 4,
   "office.external_monitor": 5,
-  "timeoff.annual_leave": 5
+  "timeoff.annual_leave": 5,
+  "_priorities": {
+    "1": "financial.project_bonus",
+    "2": "timeoff.annual_leave",
+    "3": "office.external_monitor"
+  }
 }
 ```
 

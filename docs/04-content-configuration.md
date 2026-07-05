@@ -43,7 +43,8 @@ const config: SurveyConfig = {
   submitEndpoint: "https://script.google.com/macros/s/AKfycbxk7sk1P9PHRg1byAKeVh36Rp71WDAXOZFOHM-3SbrapaFiGCIITsdZcTOrMpVyPAwMyQ/exec",
   ratingTheme: "casual", // Tema aktif: casual, professional, happy, genz
   accent: "#F97316",     // Accent color utama (Orange)
-  cardRadius: 24
+  cardRadius: 24,
+  prioritySlotsCount: 5  // Kapasitas slot prioritas (5 atau 10)
 };
 
 export default config;

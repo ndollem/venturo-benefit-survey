@@ -31,6 +31,7 @@ export const useSurveyState = () => {
     currentBenefitIndex: 0,
     shuffledBenefits: preparedBenefits,
     ratings: {},
+    priorities: Array(config.prioritySlotsCount || 5).fill(null),
     stayReason: '',
     leaveReason: '',
   });
@@ -89,12 +90,49 @@ export const useSurveyState = () => {
     });
   }, []);
 
+  const selectPriority = useCallback((benefitId: string, slotIndex: number) => {
+    setState(prev => {
+      const newRatings = { ...prev.ratings, [benefitId]: 5 };
+      const newPriorities = [...prev.priorities];
+      newPriorities[slotIndex] = benefitId;
+      const nextIndex = prev.currentBenefitIndex + 1;
+
+      // Check if finished all benefits
+      if (nextIndex >= prev.shuffledBenefits.length) {
+        return {
+          ...prev,
+          ratings: newRatings,
+          priorities: newPriorities,
+          step: 'final_questions'
+        };
+      }
+
+      return {
+        ...prev,
+        ratings: newRatings,
+        priorities: newPriorities,
+        currentBenefitIndex: nextIndex
+      };
+    });
+  }, []);
+
   const submitSurvey = useCallback(async (stayReason: string, leaveReason: string) => {
     setState(prev => ({ ...prev, step: 'submitting', stayReason, leaveReason }));
 
+    // Convert priorities array to a key-value map with 1-based index keys (e.g. "1", "2", "3")
+    const priorityMap: Record<string, string> = {};
+    state.priorities.forEach((benefitId, index) => {
+      if (benefitId) {
+        priorityMap[String(index + 1)] = benefitId;
+      }
+    });
+
     const payload = {
       name: state.name,
-      answers: state.ratings,
+      answers: {
+        ...state.ratings,
+        _priorities: priorityMap
+      },
       stayReason: stayReason.trim(),
       leaveReason: leaveReason.trim()
     };
@@ -122,7 +160,7 @@ export const useSurveyState = () => {
         errorMsg: 'Koneksi terputus atau server tidak merespons. Silakan coba kembali.' 
       }));
     }
-  }, [state.name, state.ratings]);
+  }, [state.name, state.ratings, state.priorities]);
 
   const retrySubmit = useCallback(() => {
     submitSurvey(state.stayReason, state.leaveReason);
@@ -136,6 +174,7 @@ export const useSurveyState = () => {
     completeTutorial,
     completeCategoryIntro,
     selectRating,
+    selectPriority,
     submitSurvey,
     retrySubmit
   };

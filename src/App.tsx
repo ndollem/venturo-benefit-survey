@@ -15,6 +15,7 @@ function App() {
     submitName,
     completeTutorial,
     selectRating,
+    selectPriority,
     submitSurvey,
     retrySubmit
   } = useSurveyState();
@@ -55,6 +56,8 @@ function App() {
             totalCount={state.shuffledBenefits.length}
             ratingOptions={activeTheme.options}
             onRate={selectRating}
+            priorities={state.priorities}
+            onSelectPriority={selectPriority}
           />
         )}
         

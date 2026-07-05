@@ -145,6 +145,16 @@ Guna mengoptimalkan layar mobile yang kecil, pilihan rating disusun sebagai **gr
 - Tombol 5 (Nggak Perlu / rating terendah) di baris ketiga, melebar memenuhi 2 kolom (`col-span-2`).
 - Emoji diletakkan di atas teks label secara vertikal dengan touch target minimal 48px.
 
+## Priority Slots Sidebar
+Di bagian kanan screen terdapat panel vertical **PRIORITASMU** (lebar ~72px s.d. 84px):
+- Terdiri dari 5 (atau 10) slot kotak yang dinomori secara berurutan.
+- Jika slot masih kosong, kotak memiliki bingkai putus-putus (*dashed border*).
+- Jika slot sudah terisi, kotak menampilkan miniatur gambar sprite dari benefit bersangkutan dengan tag nomor prioritas di kanan bawah.
+- Di bagian atas area gameplay (di bawah progress bar), terdapat catatan instruksi kecil (*helper note*) agar peserta mengetahui fungsi prioritas terbatas ini.
+- Menekan salah satu slot akan memasukkan kartu benefit yang aktif saat itu ke dalam slot prioritas tersebut.
+- Jika slot sudah terisi, menekan slot tersebut akan mereplace/mengganti benefit lama dengan benefit aktif saat itu. Benefit lama tetap mempertahankan rating bintang 5 di background.
+- Setiap kali benefit berhasil dimasukkan ke dalam slot prioritas, efek spektakuler confetti (pecahan kertas pesta berwarna-warni) diluncurkan langsung dari titik koordinat slot yang diketuk pada Canvas.
+
 ---
 
 # Shuffle Animation

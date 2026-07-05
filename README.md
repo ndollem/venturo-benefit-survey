@@ -12,8 +12,9 @@ Aplikasi ini dirancang ringan, cepat, dan menyenangkan. Menggunakan arsitektur *
 - **Visual & Gamified**: Benefit disajikan satu per satu dengan visual ilustrasi sprite dan animasi shuffle slot-machine yang melambat.
 - **Flat Shuffling**: Pertanyaan diacak secara acak datar (flat randomized) dari pool 48 benefit aktif tanpa pembagian kategori agar survey benar-benar acak.
 - **Tile Grid Rating**: Layout tombol rating disusun sebagai grid 2-kolom yang optimal bagi layar ponsel kecil untuk meningkatkan kemudahan ketukan ibu jari.
+- **Priority Slots (Prioritas Khusus)**: Fitur eksklusif berupa sidebar kanan di gameplay untuk memilih dan mengurutkan 5 (atau 10) benefit utama yang benar-benar penting bagi karyawan. Pengisian prioritas memicu efek confetti spektakuler dan otomatis memberi skor 5 pada benefit tersebut. Slot prioritas dapat diganti (overwrite) selama survey berlangsung, di mana benefit lama yang diganti tetap mempertahankan skor 5.
 - **Dynamic Pastel Backgrounds**: Latar belakang berubah warna pastel secara lembut dan dinamis seiring pergantian kartu pertanyaan.
-- **Tanpa Database / Server**: Data langsung masuk ke Google Sheet menggunakan Apps Script secara CORS-safe.
+- **Tanpa Database / Server**: Data langsung masuk ke Google Sheet menggunakan Apps Script secara CORS-safe dengan payload terstruktur (termasuk list prioritas urutan).
 - **Responsive Adaptive**: Tampilan adaptif yang disimulasikan sebagai frame ponsel modern saat dibuka di layar komputer/desktop.
 
 ---

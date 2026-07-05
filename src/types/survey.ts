@@ -17,6 +17,7 @@ export interface SurveyConfig {
   showTutorial?: boolean;
   enableEmoji?: boolean;
   enableQuestion?: boolean;
+  prioritySlotsCount?: number;
 }
 
 export interface RatingOption {
@@ -47,6 +48,7 @@ export interface SurveyState {
   currentBenefitIndex: number; // Index in the randomized benefits list
   shuffledBenefits: Benefit[]; // The overall flat list of randomized benefits to go through
   ratings: Record<string, number>;
+  priorities: (string | null)[]; // Array of benefit IDs assigned to priority slots
   stayReason: string;
   leaveReason: string;
   errorMsg?: string;
