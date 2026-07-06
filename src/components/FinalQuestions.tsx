@@ -59,7 +59,7 @@ const FinalQuestions: React.FC<FinalQuestionsProps> = ({ onSubmit }) => {
             <span>Benefit yang membuat bertahan:</span>
           </label>
           <p className="text-xs text-slate-400 font-bold leading-tight">
-            Benefit apa yang paling membuat Anda bertahan bekerja di Venturo?
+            Benefit apa yang menurut anda paling membuat anda bertahan bekerja di Venturo?
           </p>
           <textarea
             value={stayReason}
@@ -82,7 +82,7 @@ const FinalQuestions: React.FC<FinalQuestionsProps> = ({ onSubmit }) => {
             <span>Benefit pemicu resign:</span>
           </label>
           <p className="text-xs text-slate-400 font-bold leading-tight">
-            Benefit apa yang paling membuat Anda mempertimbangkan resign apabila tidak tersedia?
+            Benefit apa yang paling membuat Anda mempertimbangkan untuk resign apabila tidak tersedia?
           </p>
           <textarea
             value={leaveReason}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { CheckCircle2, Star, ShieldCheck, Lock, Sparkles } from 'lucide-react';
+import { CheckCircle2, Star, ShieldCheck, RefreshCw, Sparkles } from 'lucide-react';
 import config from '../config/survey.config';
 
 interface TutorialProps {
@@ -16,17 +16,21 @@ const Tutorial: React.FC<TutorialProps> = ({ onComplete }) => {
     },
     {
       icon: <Sparkles className="w-6 h-6 text-amber-500" />,
-      text: `Pilih ${config.prioritySlotsCount || 5} benefit paling penting bagi Anda untuk dimasukkan ke slot Prioritas Khusus di kanan.`,
+      text: `Ketuk slot di kanan untuk memasukkan benefit ke Top ${config.prioritySlotsCount || 5} prioritasmu. Inti dari survey ini: pilih yang benar-benar penting.`,
       color: "from-amber-500/10 to-transparent"
     },
     {
-      icon: <Lock className="w-6 h-6 text-rose-500" />,
-      text: "Slot Prioritas Khusus ini terbatas dan TIDAK BISA diganti setelah terisi. Tentukan pilihan Anda secara cermat!",
-      color: "from-rose-500/10 to-transparent"
+      icon: <RefreshCw className="w-6 h-6 text-sky-500" />,
+      text: "Berubah pikiran? Slot bisa diganti kapan saja — cukup ketuk slot itu lagi dengan benefit yang baru.",
+      color: "from-sky-500/10 to-transparent"
     },
     {
       icon: <ShieldCheck className="w-6 h-6 text-emerald-500" />,
-      text: "Gunakan tombol rating di bawah (rating 1 s.d. 4) untuk menilai benefit lainnya.",
+      text: config.gameplayMode === 'full'
+        ? "Untuk benefit lain yang bukan prioritas, beri nilai cepat lewat tombol di bawah."
+        : config.gameplayMode === 'skip'
+          ? "Kalau sebuah benefit bukan prioritasmu, ketuk tombol di bawah untuk melewatinya."
+          : "Kalau bukan prioritas, ketuk tombol di bawah: suka tapi bukan utama, atau lewati saja.",
       color: "from-emerald-500/10 to-transparent"
     }
   ];

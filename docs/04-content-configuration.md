@@ -24,31 +24,38 @@ Terdapat tiga file konfigurasi utama di dalam folder [src/config/](file:///Users
 
 # survey.config.ts
 
-Mengatur judul survey, durasi estimasi, mode animasi, warna aksen, dan endpoint Google Sheets.
+Mengatur judul survey, durasi estimasi, mode gameplay, tema rating, warna aksen, jumlah slot prioritas, dan endpoint Google Sheets.
 
 ```typescript
-import type { SurveyConfig } from '../types/survey';
+import type { SurveyConfig, GameplayMode } from '../types/survey';
+
+// Resolve gameplay mode dari env, fallback ke default 'priority'.
+const rawMode = (import.meta.env.VITE_GAMEPLAY_MODE || 'priority').toLowerCase();
+const gameplayMode: GameplayMode =
+  rawMode === 'full' || rawMode === 'skip' ? rawMode : 'priority';
 
 const config: SurveyConfig = {
   title: "WHAT MAKES ME HAPPY ON",
   subtitle: "Benefit Challenge",
   estimatedDuration: "3–5 menit",
   randomizeBenefits: true,
-  showCategoryIntro: false, // Ditiadakan demi kecepatan gameplay
-  categoryIntroDuration: 1200,
-  shuffleAnimation: {
-    firstOnly: true, // Hanya melakukan shuffle pada kartu pertama
-    duration: 2000   // Durasi shuffle 2 detik
-  },
-  submitEndpoint: "https://script.google.com/macros/s/AKfycbxk7sk1P9PHRg1byAKeVh36Rp71WDAXOZFOHM-3SbrapaFiGCIITsdZcTOrMpVyPAwMyQ/exec",
-  ratingTheme: "casual", // Tema aktif: casual, professional, happy, genz
+  submitEndpoint: import.meta.env.VITE_SUBMIT_ENDPOINT || "https://script.google.com/macros/s/AKfycbxk7sk1P9PHRg1byAKeVh36Rp71WDAXOZFOHM-3SbrapaFiGCIITsdZcTOrMpVyPAwMyQ/exec",
+  ratingTheme: "genz",   // Tema aktif: casual, professional, happy, genz
   accent: "#F97316",     // Accent color utama (Orange)
   cardRadius: 24,
-  prioritySlotsCount: 5  // Kapasitas slot prioritas (5 atau 10)
+  // Kapasitas slot prioritas (default 10, dari VITE_PRIORITY_SLOTS_COUNT)
+  prioritySlotsCount: import.meta.env.VITE_PRIORITY_SLOTS_COUNT ? parseInt(import.meta.env.VITE_PRIORITY_SLOTS_COUNT, 10) : 10,
+  gameplayMode           // priority (default) | full | skip, dari VITE_GAMEPLAY_MODE
 };
 
 export default config;
 ```
+
+## Gameplay Mode
+Field `gameplayMode` menentukan instrumen verdict di bawah card (di-resolve dari env `VITE_GAMEPLAY_MODE`):
+- **priority** (default): Slot prioritas sebagai instrumen utama + 2 tombol verdict cepat ("Cakep Nih" skor 4, "Skip Aja" skor 1).
+- **full**: Slot prioritas + grid rating penuh 1–5 (5 tombol).
+- **skip**: Slot prioritas + satu tombol "Skip Aja" (skor 1) saja.
 
 ---
 
@@ -75,12 +82,12 @@ const categoryMap: Record<string, string> = {
 
 // Objek pemetaan Bahasa Indonesia untuk benefit
 const titleOverrides: Record<string, string> = {
-  "financial.project_bonus": "Bonus / insentif berdasarkan keberhasilan project",
-  "financial.performance_bonus": "Bonus berdasarkan performa individu",
-  "financial.macbook_installment": "Peningkatan plafon Program Cicilan MacBook Pro tanpa bunga",
-  "financial.lunch_voucher": "Voucher makan siang",
+  "financial.project_bonus": "Bonus / Insentif berdasarkan keberhasilan project & individu",
+  "financial.macbook_installment": "Peningkatan plafon Program Cicilan Laptop tanpa bunga",
+  "financial.lunch_voucher": "Penyediaan makan siang",
   "financial.transport_allowance": "Tunjangan transportasi",
-  // ... (total 48 benefits terdaftar)
+  "office.hybrid_working": "Flexible Hybrid / Work From Home",
+  // ... (total 20 benefit aktif terdaftar)
 };
 ```
 

@@ -1,23 +1,20 @@
+// Gameplay method:
+// - 'priority': slots are the star; bottom shows 2 quick-verdict buttons (want / skip)
+// - 'full':     slots + full 1-5 rating grid (richest per-benefit sentiment)
+// - 'skip':     slots + a single "skip" button only (minimal)
+export type GameplayMode = 'priority' | 'full' | 'skip';
+
 export interface SurveyConfig {
   title: string;
   subtitle: string;
   estimatedDuration: string;
   randomizeBenefits: boolean;
-  showCategoryIntro: boolean;
-  categoryIntroDuration: number;
-  shuffleAnimation: {
-    firstOnly: boolean;
-    duration: number;
-  };
   submitEndpoint: string;
   ratingTheme: string;
   accent: string;
   cardRadius?: number;
-  shadow?: string;
-  showTutorial?: boolean;
-  enableEmoji?: boolean;
-  enableQuestion?: boolean;
   prioritySlotsCount?: number;
+  gameplayMode: GameplayMode;
 }
 
 export interface RatingOption {
@@ -42,9 +39,8 @@ export interface Benefit {
 }
 
 export interface SurveyState {
-  step: 'splash' | 'name' | 'tutorial' | 'category_intro' | 'gameplay' | 'final_questions' | 'submitting' | 'completed' | 'error';
+  step: 'splash' | 'name' | 'tutorial' | 'gameplay' | 'final_questions' | 'submitting' | 'completed' | 'error';
   name: string;
-  currentCategoryIndex: number;
   currentBenefitIndex: number; // Index in the randomized benefits list
   shuffledBenefits: Benefit[]; // The overall flat list of randomized benefits to go through
   ratings: Record<string, number>;

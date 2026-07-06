@@ -51,9 +51,9 @@ Setiap benefit hanya membutuhkan satu keputusan (tap rating).
 ```
 Benefit muncul
       ↓
-User tap salah satu rating tile
+User tap rating tile ATAU tap slot prioritas
       ↓
-Benefit berikutnya muncul (shuffle jika card pertama)
+Benefit berikutnya muncul (reveal animation halus)
 ```
 
 Tidak ada tombol Next atau Confirm.
@@ -77,7 +77,7 @@ Input Nama
       ↓
 Tutorial Singkat
       ↓
-Gameplay (Looping Card dengan Shuffle & Dynamic Gradients)
+Gameplay (Looping Card dengan Reveal Animation & Dynamic Gradients)
       ↓
 Pertanyaan Akhir (Stay & Leave Reason)
       ↓
@@ -130,24 +130,27 @@ Background gameplay bukan warna putih polos, melainkan **dynamic pastel gradient
 
 ## Progress Bar
 - Tampil di area atas.
-- Format teks: `18 / 48`.
+- Format teks: `10 / 20`.
 - Bar animasi bergerak sesuai progress jawaban.
 
 ## Benefit Card
 - Menampilkan ilustrasi (slicing 2x2 sprite sheet) dan judul benefit.
 - Sudut rounded (`rounded-[24px]` / cardRadius).
 - Memiliki efek shadow premium.
+- Kata kunci tertentu pada judul (mis. bonus, laptop, workspace, training) dirender sebagai pill/badge kecil berwarna agar lebih mudah dipindai (scannable).
 
-## Rating Buttons (Tile Grid)
-Guna mengoptimalkan layar mobile yang kecil, pilihan rating disusun sebagai **grid 2 kolom**:
-- Tombol 1 & 2 di baris pertama.
-- Tombol 3 & 4 di baris kedua.
-- Tombol 5 (Nggak Perlu / rating terendah) di baris ketiga, melebar memenuhi 2 kolom (`col-span-2`).
-- Emoji diletakkan di atas teks label secara vertikal dengan touch target minimal 48px.
+## Tombol Verdict (mengikuti `gameplayMode`)
+Instrumen utama gameplay adalah slot prioritas. Tombol di bawah card beradaptasi mengikuti field `gameplayMode` (di-resolve dari env `VITE_GAMEPLAY_MODE`, default `priority`):
+
+- **priority (DEFAULT)**: Slot prioritas menjadi instrumen utama. Di bawah card ditampilkan 2 tombol verdict cepat — tombol positif "Cakep Nih" (skor 4) dan "Skip Aja" (skor 1). Top picks disimpan lewat slot.
+- **full**: Slot prioritas + grid rating penuh 1–5 (5 tombol, sentimen per-benefit terkaya). Tombol disusun sebagai grid 2 kolom, tombol ke-5 melebar memenuhi 2 kolom (`col-span-2`).
+- **skip**: Slot prioritas + satu tombol "Skip Aja" (skor 1) saja (minimal).
+
+Emoji diletakkan di atas teks label secara vertikal dengan touch target minimal 48px.
 
 ## Priority Slots Sidebar
 Di bagian kanan screen terdapat panel vertical **PRIORITASMU** (lebar ~72px s.d. 84px):
-- Terdiri dari 5 (atau 10) slot kotak yang dinomori secara berurutan.
+- Terdiri dari 10 slot kotak (default, dapat dikonfigurasi via `VITE_PRIORITY_SLOTS_COUNT`) yang dinomori secara berurutan.
 - Jika slot masih kosong, kotak memiliki bingkai putus-putus (*dashed border*).
 - Jika slot sudah terisi, kotak menampilkan miniatur gambar sprite dari benefit bersangkutan dengan tag nomor prioritas di kanan bawah.
 - Di bagian atas area gameplay (di bawah progress bar), terdapat catatan instruksi kecil (*helper note*) agar peserta mengetahui fungsi prioritas terbatas ini.
@@ -157,23 +160,22 @@ Di bagian kanan screen terdapat panel vertical **PRIORITASMU** (lebar ~72px s.d.
 
 ---
 
-# Shuffle Animation
+# Reveal Animation
 
-Sebelum benefit pertama muncul (atau setiap benefit jika `firstOnly` dinonaktifkan):
+Setiap kali kartu benefit baru muncul:
 
-- Ditampilkan animasi shuffle seperti mesin slot.
-- Ilustrasi dan judul benefit berputar acak dengan kecepatan tinggi (misalnya 60ms sekali pergantian).
-- Animasi secara bertahap melambat (deceleration curve) selama 2 detik sebelum mendarat dan berhenti di benefit sesungguhnya.
-- Selama shuffle berlangsung, input rating dinonaktifkan untuk mencegah double-tap.
+- Kartu masuk dengan spring/ease-in halus (skala + slide tipis, tanpa bounce berlebihan).
+- Ilustrasi menajam dari soft blur menjadi tajam (sharpen).
+- Reveal diorkestrasi dengan stagger ringan: category tag → ilustrasi → judul → footer.
+- Menghormati `prefers-reduced-motion`: fallback berupa crossfade sederhana tanpa gerak.
 
 ---
 
 # Transition
 
-Setelah user memilih rating:
-1. Card lama mengecil dan fade-out (250ms).
-2. Tampilkan card benefit baru dengan efek fade-in.
-3. Jika card pertama, lakukan slot shuffle terlebih dahulu.
+Setelah user memberikan verdict (tap tombol atau tap slot prioritas):
+1. Card lama mengecil dan fade-out.
+2. Card benefit baru muncul dengan reveal animation di atas.
 
 ---
 

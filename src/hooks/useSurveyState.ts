@@ -27,7 +27,6 @@ export const useSurveyState = () => {
   const [state, setState] = useState<SurveyState>({
     step: 'splash',
     name: '',
-    currentCategoryIndex: 0,
     currentBenefitIndex: 0,
     shuffledBenefits: preparedBenefits,
     ratings: {},
@@ -53,17 +52,12 @@ export const useSurveyState = () => {
       ...prev,
       name,
       step: nextStep,
-      currentCategoryIndex: 0,
       currentBenefitIndex: 0
     }));
   }, []);
 
   const completeTutorial = useCallback(() => {
     localStorage.setItem(STORAGE_TUTORIAL_KEY, 'true');
-    setState(prev => ({ ...prev, step: 'gameplay' }));
-  }, []);
-
-  const completeCategoryIntro = useCallback(() => {
     setState(prev => ({ ...prev, step: 'gameplay' }));
   }, []);
 
@@ -172,7 +166,6 @@ export const useSurveyState = () => {
     startSurvey,
     submitName,
     completeTutorial,
-    completeCategoryIntro,
     selectRating,
     selectPriority,
     submitSurvey,

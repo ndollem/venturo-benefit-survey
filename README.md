@@ -9,10 +9,10 @@ Aplikasi ini dirancang ringan, cepat, dan menyenangkan. Menggunakan arsitektur *
 ## Fitur Utama
 
 - **One Screen Gameplay**: Seluruh interaksi survey diselesaikan dalam satu layar ponsel terpusat.
-- **Visual & Gamified**: Benefit disajikan satu per satu dengan visual ilustrasi sprite dan animasi shuffle slot-machine yang melambat.
-- **Flat Shuffling**: Pertanyaan diacak secara acak datar (flat randomized) dari pool 48 benefit aktif tanpa pembagian kategori agar survey benar-benar acak.
-- **Tile Grid Rating**: Layout tombol rating disusun sebagai grid 2-kolom yang optimal bagi layar ponsel kecil untuk meningkatkan kemudahan ketukan ibu jari.
-- **Priority Slots (Prioritas Khusus)**: Fitur eksklusif berupa sidebar kanan di gameplay untuk memilih dan mengurutkan 5 (atau 10) benefit utama yang benar-benar penting bagi karyawan. Pengisian prioritas memicu efek confetti spektakuler dan otomatis memberi skor 5 pada benefit tersebut. Slot prioritas dapat diganti (overwrite) selama survey berlangsung, di mana benefit lama yang diganti tetap mempertahankan skor 5.
+- **Visual & Gamified**: Benefit disajikan satu per satu dengan ilustrasi sprite dan animasi *reveal* kartu yang halus (kartu memantul lembut, ilustrasi menajam dari blur).
+- **Flat Shuffling**: Pertanyaan diacak secara acak datar (flat randomized) dari pool benefit aktif (saat ini 20 benefit) tanpa pembagian kategori agar survey benar-benar acak.
+- **Gameplay Mode (env-switchable)**: Metode survey dapat dipilih via `VITE_GAMEPLAY_MODE` — `priority` (default: slot prioritas + 2 tombol verdict cepat), `full` (slot + grid rating 1–5 penuh untuk sentimen terkaya), atau `skip` (slot + satu tombol lewati saja).
+- **Priority Slots (Prioritas Khusus)**: Instrumen utama survey — sidebar kanan untuk memilih & mengurutkan Top N benefit paling penting (default 10, diatur via `VITE_PRIORITY_SLOTS_COUNT`). Mengisi slot memicu confetti dan otomatis memberi skor 5. Slot dapat diganti (overwrite) kapan saja; benefit lama yang diganti tetap mempertahankan skor 5.
 - **Dynamic Pastel Backgrounds**: Latar belakang berubah warna pastel secara lembut dan dinamis seiring pergantian kartu pertanyaan.
 - **Tanpa Database / Server**: Data langsung masuk ke Google Sheet menggunakan Apps Script secara CORS-safe dengan payload terstruktur (termasuk list prioritas urutan).
 - **Responsive Adaptive**: Tampilan adaptif yang disimulasikan sebagai frame ponsel modern saat dibuka di layar komputer/desktop.
@@ -99,8 +99,10 @@ Semua parameter survey dapat Anda ubah secara instan tanpa menyentuh file kompon
 Buka berkas [src/config/survey.config.ts](file:///Users/kly/projects/venturo-benefit-survey/src/config/survey.config.ts) dan sesuaikan:
 - `title` / `subtitle`: Teks landing page.
 - `accent`: Kode warna hex untuk aksen tombol (misal `#F97316` untuk orange).
-- `ratingTheme`: Ganti tipe rating ke `"casual"`, `"professional"`, `"happy"`, atau `"genz"`.
-- `submitEndpoint`: Masukkan URL Google Apps Script Web App Anda di sini.
+- `ratingTheme`: Ganti tipe rating ke `"casual"`, `"professional"`, `"happy"`, atau `"genz"` (aktif: `genz`).
+- `gameplayMode`: `"priority"` (default) / `"full"` / `"skip"` — juga dapat di-override lewat env `VITE_GAMEPLAY_MODE`.
+- `prioritySlotsCount`: Jumlah slot prioritas (default 10) — dapat di-override lewat env `VITE_PRIORITY_SLOTS_COUNT`.
+- `submitEndpoint`: URL Google Apps Script Web App (di-override lewat env `VITE_SUBMIT_ENDPOINT`).
 
 ### Mengubah Teks Judul Benefit Bahasa Indonesia:
 Buka berkas [src/config/benefits.ts](file:///Users/kly/projects/venturo-benefit-survey/src/config/benefits.ts) dan edit teks di dalam objek `titleOverrides`.

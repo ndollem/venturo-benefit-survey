@@ -106,10 +106,10 @@ Yang termasuk dalam project
 - Input nama
 - Tutorial singkat (termasuk penjelasan detail aturan prioritas khusus)
 - Mini game survey (Gameplay dengan dynamic pastel backgrounds)
-- Sidebar Prioritas Khusus (PRIORITASMU) di sebelah kanan (kapasitas 5 atau 10 slot)
+- Sidebar Prioritas Khusus (PRIORITASMU) di sebelah kanan (default 10 slot, dapat dikonfigurasi via `VITE_PRIORITY_SLOTS_COUNT`)
 - Efek spektakuler confetti berbasis Canvas saat memasukkan prioritas
-- Shuffle animation (Decelerating slot machine)
-- Rating benefit (2-column tile grid layout)
+- Reveal animation kartu (spring/ease-in halus + ilustrasi menajam dari blur ke tajam, menghormati `prefers-reduced-motion`)
+- Rating benefit yang beradaptasi mengikuti `gameplayMode` (priority / full / skip)
 - Progress indicator
 - Auto submit ke Google Sheet (CORS-friendly dengan `no-cors` mode)
 - Thank you page
@@ -134,13 +134,13 @@ Setiap benefit akan muncul secara acak dari database konfigurasi global.
 
 Peserta memberikan penilaian menggunakan salah satu pilihan rating dalam format grid.
 
-Contoh rating (Casual Theme):
+Contoh rating (Gen Z Theme, tema aktif):
 ```
-🤩 Wajib Ada! (5)
-😍 Mau Banget (4)
-🙂 Boleh Juga (3)
-😐 Kurang Ngaruh (2)
-🙅 Nggak Perlu (1)
+🔥 Auto Ambil (5)
+👌 Cakep Nih (4)
+🙂 Lumayan (3)
+🤏 Kurang Sih (2)
+🙅 Skip Aja (1)
 ```
 
 Label dan emoji tersebut tidak di-hardcode.

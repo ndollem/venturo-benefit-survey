@@ -23,7 +23,7 @@ Name Input Step
     ↓ (User memasukkan nama valid & klik Mulai)
 Tutorial Step (Hanya muncul jika belum pernah melihat)
     ↓ (User klik Siap)
-Gameplay Step (Looping 48 benefits secara acak datar)
+Gameplay Step (Looping 20 benefits secara acak datar)
     ↓ (User memberikan rating pada benefit terakhir)
 Final Questions Step (2 pertanyaan textarea opsional)
     ↓ (User klik Kirim)
@@ -70,9 +70,9 @@ Survey memiliki state yang dideklarasikan di tipe [SurveyState](file:///Users/kl
 - Jika kosong, sistem memblokir navigasi dan memicu banner error visual.
 
 ## 2. Benefit Rating
-- Setiap benefit wajib mendapat satu rating (score 1-5).
-- Input dinonaktifkan saat animasi shuffle berlangsung.
-- Pengguna tidak dapat melompat/melewati benefit tanpa memberi rating.
+- Setiap benefit wajib mendapat satu verdict (skor 1-5, mengikuti `gameplayMode`).
+- Input dinonaktifkan sesaat selama reveal animation kartu berlangsung untuk mencegah double-tap.
+- Pengguna tidak dapat melompat/melewati benefit tanpa memberi verdict.
 
 ## 3. Pertanyaan Akhir
 - Bersifat opsional (boleh kosong).
@@ -85,11 +85,9 @@ Survey memiliki state yang dideklarasikan di tipe [SurveyState](file:///Users/kl
 Proses pengiriman hasil survey dilakukan menggunakan HTTP POST request ke Google Apps Script Web App.
 
 ## 4. Priority Slots Logic
-- **Slot Terbatas**: Terdapat 5 (atau 10) slot prioritas khusus terurut.
-- **Dua Cara Mendapat Rating 5**:
-  1. Melalui tombol rating standar 5 ("Wajib Ada!") di bawah card. Opsi ini memberikan skor 5 pada benefit tersebut tanpa memengaruhi slot prioritas.
-  2. Melalui klik langsung pada slot prioritas (1 s.d. 5) di sidebar kanan. Ini secara otomatis memberikan skor 5 pada benefit bersangkutan dan mencatat posisinya di urutan prioritas.
-- **Sistem Ganti/Replace (Overwrite)**: Klik pada slot prioritas yang sudah terisi akan menggantikan benefit lama dengan benefit yang sedang aktif. Benefit lama tetap mempertahankan nilai rating skor 5, namun dikeluarkan dari list prioritas terurut.
+- **Slot Terbatas**: Terdapat 10 slot prioritas khusus terurut secara default (dapat dikonfigurasi via `VITE_PRIORITY_SLOTS_COUNT` / `prioritySlotsCount`).
+- **Mendapat Rating 5 via Slot**: Klik langsung pada salah satu slot prioritas di sidebar kanan secara otomatis memberikan skor 5 pada benefit yang sedang aktif dan mencatat posisinya di urutan prioritas.
+- **Slot Dapat Diganti Kapan Saja (Overwrite)**: Slot TIDAK bersifat permanen. Menekan slot yang sudah terisi dengan benefit yang sedang aktif akan mengganti benefit lama dengan benefit baru tersebut. Benefit lama tetap mempertahankan nilai rating skor 5, namun dikeluarkan dari list prioritas terurut.
 
 ## Request Payload Format
 Payload JSON yang dikirimkan membundel urutan prioritas di dalam objek `answers` dengan properti khusus `_priorities` bertipe objek dengan kunci berupa string nomor urut prioritas (`"1"`, `"2"`, dst.):
@@ -99,11 +97,11 @@ Payload JSON yang dikirimkan membundel urutan prioritas di dalam objek `answers`
   "answers": {
     "financial.project_bonus": 5,
     "office.external_monitor": 4,
-    "timeoff.annual_leave": 5,
-    "health.medical": 3,
+    "office.hybrid_working": 5,
+    "learning.mentoring": 3,
     "_priorities": {
       "1": "financial.project_bonus",
-      "2": "timeoff.annual_leave"
+      "2": "office.hybrid_working"
     }
   },
   "stayReason": "Bonus project yang adil...",
