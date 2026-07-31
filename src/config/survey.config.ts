@@ -8,7 +8,7 @@ const gameplayMode: GameplayMode =
 const config: SurveyConfig = {
   title: "WHAT MAKES ME HAPPY ON",
   subtitle: "Benefit Challenge",
-  estimatedDuration: "3–5 menit",
+  estimatedDuration: "4–6 menit",
   randomizeBenefits: true,
   submitEndpoint: import.meta.env.VITE_SUBMIT_ENDPOINT || "https://script.google.com/macros/s/AKfycbxk7sk1P9PHRg1byAKeVh36Rp71WDAXOZFOHM-3SbrapaFiGCIITsdZcTOrMpVyPAwMyQ/exec",
   ratingTheme: "genz",
