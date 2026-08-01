@@ -10,7 +10,9 @@ const config: SurveyConfig = {
   subtitle: "Benefit Challenge",
   estimatedDuration: "3–5 menit",
   randomizeBenefits: true,
-  submitEndpoint: import.meta.env.VITE_SUBMIT_ENDPOINT || "https://script.google.com/macros/s/AKfycbxk7sk1P9PHRg1byAKeVh36Rp71WDAXOZFOHM-3SbrapaFiGCIITsdZcTOrMpVyPAwMyQ/exec",
+  // Fallback points at the demo spreadsheet, not the live survey — an unset or
+  // blank VITE_SUBMIT_ENDPOINT should never silently write real response data.
+  submitEndpoint: import.meta.env.VITE_SUBMIT_ENDPOINT || "https://script.google.com/macros/s/AKfycbwcvCbuFuidRkPAJ7cS3b_T3oXwGr6DChiuVW7w3CEO7N3AyHnBJcIqvRImNN6gZcXh4g/exec",
   ratingTheme: "genz",
   accent: "#F97316", // Orange accent
   cardRadius: 24,
