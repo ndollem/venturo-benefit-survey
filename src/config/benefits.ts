@@ -16,10 +16,10 @@ const categoryMap: Record<string, string> = {
 // Bahasa Indonesia Title overrides mapping directly to asset manifest keys
 const titleOverrides: Record<string, string> = {
   // Lingkungan Kerja
-  "office.hybrid_working": "Flexible Hybrid / Work From Home",
-  "office.external_monitor": "Monitor eksternal untuk bekerja",
+  "office.hybrid_working": "Hybrid / WFH",
+  "office.external_monitor": "Monitor eksternal",
   "office.modern_office": "Desain interior kantor yang lebih modern dan nyaman",
-  "office.company_macbook": "Subsidi pembelian laptop",
+  "office.company_macbook": "Subsidi laptop",
   "office.private_workspace": "Ruang kerja pribadi / private workspace",
   "office.free_snack": "Snack & minuman gratis di kantor",
 
