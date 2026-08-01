@@ -8,7 +8,7 @@ const gameplayMode: GameplayMode =
 const config: SurveyConfig = {
   title: "WHAT MAKES ME HAPPY ON",
   subtitle: "Benefit Challenge",
-  estimatedDuration: "3–5 menit",
+  estimatedDuration: "4–6 menit",
   randomizeBenefits: true,
   // Fallback points at the demo spreadsheet, not the live survey — an unset or
   // blank VITE_SUBMIT_ENDPOINT should never silently write real response data.
