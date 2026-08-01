@@ -126,6 +126,8 @@ Proyek ini siap dideploy ke **Vercel** dengan integrasi GitHub:
 
 ## Laporan Hasil Survey
 
-Seluruh data respon dari peserta survey yang dikirimkan melalui aplikasi ini dicatat secara langsung ke Google Spreadsheet. Anda dapat melihat database hasil survey live pada link berikut:
+Seluruh data respon dari peserta survey yang dikirimkan melalui aplikasi ini dicatat secara langsung ke Google Spreadsheet. Spreadsheet di bawah ini adalah **salinan demo** — endpoint bawaan di `.env.example` dan fallback di `src/config/survey.config.ts` sama-sama menunjuk ke sini, jadi aman untuk eksperimen, latihan, dan sesi training.
 
-👉 **[Google Spreadsheet Hasil Survey](https://docs.google.com/spreadsheets/d/1UdqpNzhLoHtq2ZNgcd8SXB3m-TKKCydJVqfX3_2m_ug/edit?usp=sharing)**
+👉 **[Google Spreadsheet Hasil Survey (demo)](https://docs.google.com/spreadsheets/d/1mbnaW23CFchZiN3nMQujhnFyAEQAk9kPTHhkshXSi3c/edit?usp=sharing)**
+
+Mau menampung data sendiri, bukan menumpang salinan demo? Buat spreadsheet-mu sendiri dan deploy ulang Apps Script-nya — langkah lengkapnya ada di komentar paling atas [`appsscript/code.js`](appsscript/code.js) (buat sheet + header → Extensions → Apps Script → Deploy sebagai Web app → salin Web App URL). URL hasil deploy itu yang kamu isikan ke `VITE_SUBMIT_ENDPOINT` di `.env`.
