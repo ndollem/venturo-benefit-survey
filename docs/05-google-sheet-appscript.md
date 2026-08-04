@@ -17,7 +17,7 @@ Seluruh hasil survey disimpan secara langsung ke Google Spreadsheet menggunakan 
 ```
 React App (Vercel)
       ↓
-POST JSON (no-cors mode)
+POST JSON (body string)
       ↓
 Google Apps Script (Web App Redirection)
       ↓
@@ -103,19 +103,18 @@ function doPost(e) {
 
 ---
 
-# CORS Integration Fix
+# Integrasi Frontend
 
-Google Apps Script Web App selalu memicu redireksi HTTP 302 ke sub-domain `googleusercontent.com` saat memproses output. Redireksi ini sering diblokir oleh kebijakan CORS browser jika dikirim menggunakan header JSON konvensional.
+Google Apps Script Web App selalu memicu redireksi HTTP 302 ke sub-domain `googleusercontent.com` saat memproses output.
 
-Untuk menyelesaikan ini:
-1. **Frontend Request Mode**: Frontend dikonfigurasi menggunakan mode `no-cors` dalam method fetch:
+Alur integrasinya:
+1. **Frontend Request**: Frontend mengirim payload sebagai body string lewat `fetch` ke Web App URL hasil deploy.
    ```typescript
    fetch(endpoint, {
      method: 'POST',
-     mode: 'no-cors',
      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
      body: JSON.stringify(payload)
    })
    ```
 2. **Apps Script Parsing**: Apps Script memproses body string tersebut menggunakan parser JSON standar.
-3. **Respon Opaque**: Browser akan menganggap status request aman dan memperlakukan respon sebagai *opaque*. Logika state hook akan langsung memicu transisi ke halaman sukses setelah request dikirim dengan sukses tanpa hambatan CORS.
+3. **Pencatatan**: Baris baru ditulis ke sheet target mengikuti urutan header.

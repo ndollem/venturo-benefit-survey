@@ -80,7 +80,7 @@ Survey memiliki state yang dideklarasikan di tipe [SurveyState](file:///Users/kl
 
 ---
 
-# Submission & CORS Fix
+# Submission
 
 Proses pengiriman hasil survey dilakukan menggunakan HTTP POST request ke Google Apps Script Web App.
 
@@ -109,13 +109,12 @@ Payload JSON yang dikirimkan membundel urutan prioritas di dalam objek `answers`
 }
 ```
 
-## CORS Resolution
-Karena browser memblokir request ke endpoint Google Apps Script akibat ketiadaan header CORS pada pengalihan server redirect (`302 redirect` ke googleusercontent), pengiriman data dikonfigurasi menggunakan:
+## Transport
+Endpoint Google Apps Script menerima payload sebagai body string, bukan sebagai JSON ber-header konvensional:
 
-- **Mode**: `no-cors`
 - **Content-Type**: `text/plain;charset=utf-8`
 
-Dengan mode `no-cors`, request POST dikirim secara aman, Google Apps Script berhasil mengeksekusi `doPost(e)` dan mencatat data ke Google Sheet, sementara frontend secara otomatis mengalihkan pengguna ke halaman `completed` setelah koneksi berhasil diselesaikan.
+Apps Script mengeksekusi `doPost(e)`, mem-parse body tersebut, lalu mencatat datanya ke Google Sheet. Konfigurasi request selengkapnya ada di implementasi hook submit.
 
 ---
 

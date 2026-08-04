@@ -14,7 +14,7 @@ Aplikasi ini dirancang ringan, cepat, dan menyenangkan. Menggunakan arsitektur *
 - **Gameplay Mode (env-switchable)**: Metode survey dapat dipilih via `VITE_GAMEPLAY_MODE` — `priority` (default: slot prioritas + 2 tombol verdict cepat), `full` (slot + grid rating 1–5 penuh untuk sentimen terkaya), atau `skip` (slot + satu tombol lewati saja).
 - **Priority Slots (Prioritas Khusus)**: Instrumen utama survey — sidebar kanan untuk memilih & mengurutkan Top N benefit paling penting (default 10, diatur via `VITE_PRIORITY_SLOTS_COUNT`). Mengisi slot memicu confetti dan otomatis memberi skor 5. Slot dapat diganti (overwrite) kapan saja; benefit lama yang diganti tetap mempertahankan skor 5.
 - **Dynamic Pastel Backgrounds**: Latar belakang berubah warna pastel secara lembut dan dinamis seiring pergantian kartu pertanyaan.
-- **Tanpa Database / Server**: Data langsung masuk ke Google Sheet menggunakan Apps Script secara CORS-safe dengan payload terstruktur (termasuk list prioritas urutan).
+- **Tanpa Database / Server**: Data langsung masuk ke Google Sheet menggunakan Apps Script dengan payload terstruktur (termasuk list prioritas urutan).
 - **Responsive Adaptive**: Tampilan adaptif yang disimulasikan sebagai frame ponsel modern saat dibuka di layar komputer/desktop.
 
 ---
@@ -126,7 +126,7 @@ Proyek ini siap dideploy ke **Vercel** dengan integrasi GitHub:
 
 ## Laporan Hasil Survey
 
-Seluruh data respon dari peserta survey yang dikirimkan melalui aplikasi ini dicatat secara langsung ke Google Spreadsheet. Spreadsheet di bawah ini adalah **salinan demo** — endpoint bawaan di `.env.example` dan fallback di `src/config/survey.config.ts` sama-sama menunjuk ke sini, jadi aman untuk eksperimen, latihan, dan sesi training.
+Seluruh data respon dari peserta survey yang dikirimkan melalui aplikasi ini dicatat secara langsung ke Google Spreadsheet. Spreadsheet di bawah ini adalah **salinan demo** yang dipakai untuk eksperimen, latihan, dan sesi training.
 
 👉 **[Google Spreadsheet Hasil Survey (demo)](https://docs.google.com/spreadsheets/d/1mbnaW23CFchZiN3nMQujhnFyAEQAk9kPTHhkshXSi3c/edit?usp=sharing)**
 

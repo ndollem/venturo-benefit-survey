@@ -39,7 +39,7 @@ const config: SurveyConfig = {
   subtitle: "Benefit Challenge",
   estimatedDuration: "3–5 menit",
   randomizeBenefits: true,
-  submitEndpoint: import.meta.env.VITE_SUBMIT_ENDPOINT || "https://script.google.com/macros/s/AKfycbxk7sk1P9PHRg1byAKeVh36Rp71WDAXOZFOHM-3SbrapaFiGCIITsdZcTOrMpVyPAwMyQ/exec",
+  submitEndpoint: import.meta.env.VITE_SUBMIT_ENDPOINT,
   ratingTheme: "genz",   // Tema aktif: casual, professional, happy, genz
   accent: "#F97316",     // Accent color utama (Orange)
   cardRadius: 24,

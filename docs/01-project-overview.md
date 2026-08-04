@@ -111,7 +111,7 @@ Yang termasuk dalam project
 - Reveal animation kartu (spring/ease-in halus + ilustrasi menajam dari blur ke tajam, menghormati `prefers-reduced-motion`)
 - Rating benefit yang beradaptasi mengikuti `gameplayMode` (priority / full / skip)
 - Progress indicator
-- Auto submit ke Google Sheet (CORS-friendly dengan `no-cors` mode)
+- Auto submit ke Google Sheet lewat Apps Script Web App
 - Thank you page
 - Penyimpanan ke Google Sheet via Google Apps Script (menyimpan urutan prioritas)
 - Vercel configuration (`vercel.json`) untuk hosting SPA
